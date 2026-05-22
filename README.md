@@ -1,137 +1,50 @@
 # WP Production Snippets
 
-Curated, production-ready WordPress snippets for real-world WordPress projects.
+Curated, production-ready WordPress snippets for real-world projects.
 
 ## Structure
 
-- `admin/` – Admin UI and dashboard tweaks
-- `security/` – Security-related snippets
-- `performance/` – Speed and optimization
-- `frontend/` – Theme/frontend helpers
-- `woocommerce/` – WooCommerce-specific utilities
-- etc
+| Folder | Contents |
+|---|---|
+| `admin/` | Admin UI and dashboard tweaks |
+| `security/` | Security hardening |
+| `performance/` | Speed and optimization |
+| `frontend/` | Theme and frontend helpers |
+| `seo/` | SEO and URL improvements |
+| `block-theme/` | Block theme utilities |
+| `woocommerce/` | WooCommerce-specific utilities |
 
 ## Usage
 
-Each snippet is a standalone `.php` file.
+Each snippet is a standalone `.php` file. Either:
+- Copy the contents into your theme's `functions.php`, or
+- Add it via a custom functionality plugin (e.g. Code Snippets).
 
-- Copy its contents into your theme's `functions.php`, **or**
-- Include it in a custom functionality plugin (e.g., Code Snippets).
+All snippets are tested on WordPress 6.x.
 
 ## Snippets
 
-### Editable Username on Profile Page
+### `admin/editable-username.php`
+Allows admins or users to change their WordPress username from the profile screen. Performs a direct database update — use with care.
 
-Allows administrators or users editing their own profile to change their WordPress username (`user_login`) from the profile screen.
+### `frontend/live-clock-shortcode.php`
+Real-time clock shortcode `[live_clock]` displaying either the site's timezone or the visitor's local time. Configurable via in-file settings.
 
-**File:** `admin/editable-username.php`
+### `seo/remove-category-tag-base.php`
+Strips `/category/` and `/tag/` from taxonomy URLs with 301 redirects for old paths. Supports hierarchical categories and pagination.
 
-**Important:** WordPress does not allow username changes by default.  
-This snippet performs a direct database update – use with care in production.
+### `block-theme/time-based-style-variation-switcher.php`
+Automatically switches a block theme's style variation based on the site's local time of day.
 
-**Tested:** WordPress 6.x
+### `performance/lightweight-cache-control.php`
+Basic cache control without a plugin — includes cache headers, CSS/JS versioning, and an admin bar purge button.
 
-### Live Clock (Shortcode + Footer)
+### `admin/duplicate-posts-pages.php`
+Adds a "Duplicate" row action to posts and pages, creating a draft copy with content, taxonomies, and custom fields.
 
-Displays a real-time clock showing either:
+### `admin/per-post-visibility-toggles.php`
+Per-post sidebar toggles to hide the featured image or excerpt on the frontend.
 
-- The site's timezone, or
-- The visitor's local timezone.
+---
 
-**Shortcode:** `[live_clock]`
-
-**Settings (inside the file):**
-
-- `mode` – `'site'` or `'visitor'`
-- `site_timezone` – e.g. `Africa/Lagos`, `Europe/London`
-- `site_label` – label shown when `mode = 'site'`
-- `show_in_footer` – `true` to auto-output in the footer, `false` for shortcode only
-
-**File:** `frontend/live-clock-shortcode.php`
-
-**Tested:** WordPress 6.x
-
-### Remove Category & Tag Base
-
-Removes `/category/` and `/tag/` from default WordPress taxonomy URLs.
-
-**Examples:**
-
-- `/category/news/` → `/news/`
-- `/category/parent/child/` → `/parent/child/`
-- `/tag/design/` → `/design/`
-
-**Features:**
-
-- Supports hierarchical categories  
-- Preserves existing posts and pages  
-- Resolves base-less category and tag archives  
-- Handles `/something/page/2` pagination  
-- 301 redirects old `/category/...` and `/tag/...` URLs  
-- Flushes rewrite rules once
-
-**File:** `seo/remove-category-tag-base.php`
-
-**Warning:** May conflict with pages or custom post types that share slugs, or with SEO plugins that modify rewrites. Test on staging before production.
-
-**Tested:** WordPress 6.x
-
-### Time‑Based Style Variation Switcher
-
-Automatically switches a block theme’s style variation (`/styles/*.json`) based on the site’s local time.
-
-- 07:00–13:00 → default theme.json
-- 13:00–19:00 → styles/parchment.json
-- 19:00–07:00 → styles/inverted.json
-
-**File:** `block-theme/time-based-style-variation-switcher.php`
-
-### Lightweight Cache Control (No Plugin)
-
-Provides basic cache control without installing a caching plugin.
-
-**Features:**
-
-- Frontend no-cache headers
-- Automatic CSS/JS versioning
-- Admin bar “Purge Cache” button
-- Object cache flush support
-
-**File:** `performance/lightweight-cache-control.php`
-
-**Warning:** Disables browser caching for HTML. Not recommended for high-traffic production sites.
-
-### Duplicate Posts & Pages (Admin)
-
-Adds a “Duplicate” link to the row actions in:
-
-- All Posts
-- All Pages
-
-Creates a draft copy including:
-
-- Content
-- Excerpt
-- Taxonomies
-- Custom fields (meta)
-
-**File:** `admin/duplicate-posts-pages.php`
-
-**Scope:** Admin only.
-
-### Per‑Post Visibility Toggles
-
-Adds sidebar options to posts allowing editors to:
-
-- Hide featured image
-- Hide excerpt
-
-Applies only to the `post` post type.
-
-**File:** `admin/per-post-visibility-toggles.php`
-
-**Scope:** Admin UI + frontend filtering.
-
-
-**Tested:** WordPress 6.x, block themes only.
-
+Built by [Tomi Abe Studio](https://studio.tomiabe.com)
